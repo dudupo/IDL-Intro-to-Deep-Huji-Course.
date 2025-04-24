@@ -1,0 +1,146 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\title{IDL}
+\author{David Ponarovsky}
+\date{April 2025}
+
+
+
+    \newcommand{\DXX}[1]{ \frac{d}{ d #1 } }
+\begin{document}
+
+\maketitle
+
+\section{Theoretical Questions:}
+
+\subsection{Composition of Linear question.}
+Let $f : D \rightarrow D^\prime$ and $g : D^\prime  \rightarrow D^{\prime \prime}$ be linear functions. Then for any $x,y\in D^\prime$ and coefficients $a,b$ we have: 
+\begin{equation*}
+    \begin{split}
+        g \circ f (ax + by) = g\left( f(ax + by \right) = g \left( af(x) +bf(y)\right)
+    \end{split}
+\end{equation*}
+When in the last passages we used the linearity of $f$, Now since $f(x),f(y) \in D^{\prime, \prime}$ we can use the linearity of $g$ to get: 
+\begin{equation*}
+    \begin{split}
+        g \circ f (ax + by) = ag(f(x)) + bg(f(y)) = a g \circ f (x) + b g \circ f(y)
+    \end{split}
+\end{equation*}
+
+\subsection{The Gradient Descent.} Denote by $f(x,y) = p^{-1}(x-1)^{2} + p(y+1)^2$. Then:
+\begin{equation*}
+    \begin{split}
+        \nabla f = \begin{bmatrix}
+          2p^{-1}(x-1)    \\
+          2p(y+1)
+        \end{bmatrix}
+    \end{split}
+\end{equation*}
+So stepping at rate $\varepsilon$ advance $\left(x,y\right)$ as follows: 
+\begin{equation*}
+    \begin{split}
+       \begin{bmatrix}
+           x_{t+1} \\
+           y_{t+1}
+       \end{bmatrix} \leftarrow \begin{bmatrix}
+           x_{t} \\
+           y_{t}
+       \end{bmatrix} +  \varepsilon \begin{bmatrix}
+          2p^{-1}(x_{t}-1)    \\
+          2p(y_{t}+1)
+        \end{bmatrix} 
+    \end{split}
+\end{equation*}
+So for requiring that $\Theta( ||\Delta x ||^2_{2})$ will be small comparing to $||\Delta x||_{1}$ we have to ensure that $||\Delta x||_{2} < 1$ (the two norm chosen arbitrary, any $p$- norm for $p \ge 1$ works). Thus:
+\begin{equation*}
+    \begin{split}
+     || \varepsilon  \begin{bmatrix}
+          2p^{-1}(x_{t}-1)    \\
+          2p(y_{t}+1)
+        \end{bmatrix} ||_{2}  \le 1 \Rightarrow \varepsilon \le \frac{1}{   4p^{-2}\left(x-1 \right)^{2}  + 4p^{2}\left(y+1 \right)^{2}  }      
+    \end{split}
+\end{equation*}
+
+\subsection{Prediction Loss.}
+\begin{equation*}
+    L\left( \theta,\hat{\theta} \right) = |\textbf{Im} e^{i \left( \theta-\hat{\theta} \right)}| \cdot \texttt{penalty}
+\end{equation*}
+
+\subsection{Chain Rule.}
+\begin{enumerate}
+    \item Using the chain rule: \begin{equation*}
+    \begin{split}
+        \frac{\partial}{\partial x} f(x+y, 2x, z) &= \frac{\partial}{\partial x} (x +y) \cdot \frac{\partial}{\partial w_{1}}  f(w_{1}, w_{2}, w_{3}) \\ & +  \frac{\partial}{\partial x} (2x) \cdot \frac{\partial}{\partial w_{2}}  f(w_{1}, w_{2}, w_{3}) \\ &+ \frac{\partial}{\partial x} (z) \cdot \frac{\partial}{\partial w_{3}}  f(w_{1}, w_{2}, w_{3})  \\ &
+        =  \frac{\partial}{\partial w_{1}}  f(w_{1}, w_{2}, w_{3}) +   2 \cdot \frac{\partial}{\partial w_{2}}  f(w_{1}, w_{2}, w_{3}) |_{w_{1}=x+y,w_{2}=2x, w_{3} = z}
+    \end{split}
+\end{equation*}
+\item Denote by $g_n$ the concatenation of $f_{1},f_{2}...,f_{n}$ with itself, and extantd the notation to $n=0$ by defying  $f_{0}(x) = x$. We will prove by induction that $\frac{d}{dx}f_{n} = \prod_{i=0}^{n-1}\frac{d}{dx}f_{i+1}|_{f_{i}(x)}$:
+\begin{enumerate}
+    \item \textbf{Base.} $n=1$ and indeed $\prod_{i=0}^{0}\frac{d}{dx}f_{i+1}|_{f_{i}(x)} = \frac{d}{dx}f|_x  $.
+    \item \textbf{Assumption.} Assumes correctness to $n^\prime \le n-1$.
+    \item \textbf{Step.} 
+\begin{equation*}
+    \begin{split}
+      \frac{d}{ dx}  g_{n}  & = \frac{d}{ dx} \left( f_{n} \left( g_{n-1}(x) \right) \right) =\frac{d}{ dx} g_{n-1} \cdot \left( \frac{d}{d x} f_{n}  \right)|_{ f_{n-1}(x)} \\ 
+      & = \prod_{i=0}^{n-2}\frac{d}{dx}f_{i+1}|_{f_{i}(x)} \cdot \left( \frac{d}{d x} f_{n}  \right)_{ f_{n-1}(x)} = \prod_{i=0}^{n-1}\frac{d}{dx}f_{i+1}|_{f_{i}(x)}
+    \end{split}
+\end{equation*}
+\end{enumerate}
+
+
+
+
+\item Let's define $g_{n}(x)$ in recursive manner as follows: $g_{0}(x) = f(x)$ and $g_{n+1} = f_{n+1}(x,g_{n}(x))$, Then we will prove by induction that: 
+
+\begin{equation*}
+    \frac{d}{dx} g_{n}(x)  = \sum_{i} \frac{d}{dx}f_{i}(x,y)|_{y = f_{i-1}(x)} \prod_{j=i-1}^{n}\frac{d}{dy}f_{j+1}(x,y)|_{y = f_j(x)}
+\end{equation*}
+
+\begin{enumerate}
+    \item \textbf{Base.} For $n=2$ we have: 
+    \begin{equation*}
+        \begin{split}
+            \frac{d}{dx}f_2(x,f_1(x)) = \frac{d}{dx}f_{2}(x,y)|_{y=f_{1}(x)} +\frac{d}{dx}f_1(x)\cdot \frac{d}{dy}f_{2}(x,y)|_{y=f(_{1}x)}
+        \end{split}
+    \end{equation*}
+    And that's exactly what we have in the formula. 
+    \item \textbf{Assumption.} Assume the correctness of the claim for any $n^\prime \le n - 1 $
+    \item \textbf{Step.}
+\begin{equation*}
+    \begin{split}
+        \frac{d}{dx} f_{n}(x,g_{n-1}(x)) &= \frac{d}{dx}f_{n}(x,y)|_{y=g_{n-1}(x)} + \frac{dy}{dx}\frac{d}{dy}f(x,y)|_{y = g_{n-1}(x)} \\ 
+        &=  \frac{d}{dx}f_{n}(x,y)|_{y=g_{n-1}(x)} + \frac{d}{dx}g_{n-1}\frac{d}{dy}f_{n}(x,y)|_{y = g_{n-1}(x)} \\
+        & =  \frac{d}{dx}f_{n}(x,y)|_{y=g_{n-1}(x)}  + \sum_{i}^{n-1} \frac{d}{dx}f_{i}(x,y)|_{y = g_{i-1}(x)} \prod_{j=i}^{n-1}\frac{d}{dy}f_{j+1}(x,y)|_{y = g_j(x)}\\
+        & = \sum_{i}^{n} \frac{d}{dx}f_{i}(x,y)|_{y = g_{i-1}(x)} \prod_{j=i}^{n}\frac{d}{dy}f_{j}(x,y)|_{y = g_{j-1}(x)}
+    \end{split}
+\end{equation*}
+
+\end{enumerate}
+\item 
+    \begin{equation*}
+        \begin{split}
+            f\left( x + g \left( x + h(x)\right)\right)
+        \end{split}
+    \end{equation*}
+    First, notice that the derivative of $g\left( x + h(x) \right)$ equals: 
+    \begin{equation*}
+        \begin{split}
+            \frac{d}{dx}g\left( x + h(x) \right) & = \DXX{x} \left( x + h(x) \right) \cdot \DXX{y}g(y)|_{y= x+h(x)} \\
+            & = \left( 1 + \DXX{x} h(x) \right) \cdot  \DXX{y}g(y)|_{y= x+h(x)}       
+            \end{split}
+    \end{equation*}
+    So in overall we get: 
+    \begin{equation*}
+        \begin{split}
+            \DXX{x} f\left(x + g\left( x + h(x)\right) \right) &= \left(1 + \DXX{x}  g\left( x + h(x) \right) \right) \cdot \DXX{y} f(y) |_{y = x + g\left( x + h(x) \right)}  \\
+            &=  \left(1 + \left( 1 + \DXX{x} h(x) \right) \cdot  \DXX{y}g(y)|_{y= x+h(x)} \right) \cdot \DXX{y} f(y) |_{y = x + g\left( x + h(x) \right)}  \\
+            &= \DXX{y} f(y) |_{y = x + g\left( x + h(x) \right)} + \DXX{y} f(y) |_{y = x + g\left( x + h(x) \right)}   
+             \cdot \DXX{y}g(y)|_{y= x+h(x)} \\ 
+             & \ \ \ \ \ \ \ \ \ \ \ +  \DXX{y} f(y) |_{y = x + g\left( x + h(x) \right)}   
+             \cdot \DXX{y}g(y)|_{y= x+h(x)} \cdot \DXX{x} h(x) 
+        \end{split}
+    \end{equation*}
+\end{enumerate}
+\end{document}
+
