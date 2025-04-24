@@ -1,0 +1,5 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'ex1.blg'
+[87] biber:340> INFO - === Thu Apr 24, 2025, 11:03:30
+[230] Utils.pm:399> ERROR - Cannot find 'ex1.bcf'!
+[230] Biber.pm:136> INFO - ERRORS: 1
