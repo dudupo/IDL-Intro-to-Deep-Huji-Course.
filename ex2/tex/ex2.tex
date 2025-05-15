@@ -29,9 +29,24 @@ And we got that the convolution is an LTI operation.
 \begin{enumerate}
   \item Additive constant.
 
-    \textbf{Solution.} \textbf{TRUE.} $\mathcal{L}[f] = f(x) + c \Rightarrow  \mathcal{L}[f(x-t)] = f(x-t) + c =  \mathcal{L}[f](x-t)$
+    \textbf{Solution.} \textbf{TRUE.} 
+
+\begin{equation*}
+    \begin{split}
+    \mathcal{L}[f] = f(x) + c \Rightarrow  \mathcal{L}[f(x-t)] = f(x-t) + c =  \mathcal{L}[f](x-t)
+    \end{split}
+\end{equation*}
+
   \item Pointwise nonlinearity (such as ReLU)
-\textbf{Solution.}
+    \textbf{Solution.} \textbf{FALSE.} Denote $\mathcal{L}[f] = Relu(f(x))$, now consider the ReLU action over the linear function $f(x) = x$.   
+\begin{equation*}
+    \begin{split}
+      \Rightarrow  \mathcal{L}[f(x-t)] = Relu(f(x-t))  =  \begin{cases}  
+        0 & \text{if} x < t \\ 
+        x - t & \text{else}
+      \end{cases}   \neq \mathcal{L}[f](x-t)
+    \end{split}
+\end{equation*}
   \item Strided pooling by a factor $ > 1 $
 \textbf{Solution.}
   \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
