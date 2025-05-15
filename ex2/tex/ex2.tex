@@ -93,11 +93,9 @@ J = \begin{bmatrix}
     \end{split}
 \end{equation*}
   \item Convolution layer
-  \begin{equation*}
-    \begin{split}
-    \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
-    \end{split}
-\end{equation*}
+    
+
+    \textbf{Solution.} By the previous section and since convolution is just a multiplication by all the cyclic shifts of a vector (namely a matrix whose first row is $h$, the second is $h$ shifted to the right, and so on), we get that the Jacobian will be the convolution matrix. In other words, $J_{ij}$ would be the $(i - j)$th value of the filter. Namely, if the filter is $h$, then $J_{ij} = h_{i-j}$.
 \end{enumerate}
 
 
