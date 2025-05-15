@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\title{IDL Exercise 2.}
+\author{David Ponarovsky}
+\date{April 2025}
+
+
+\newcommand{\DXX}[1]{ \frac{d}{ d #1 } }
+\begin{document}
+
+\maketitle
+
+\section{Theoretical Questions:}
+
+\subsection{LTI}. Show that a convolution with respect to any filter h is time/space invariant.
+
+\subsection{TI.} Explain whether each of the following layers are time/space invariant or not:
+\begin{enumerate}
+  \item Additive constant
+  \item Pointwise nonlinearity (such as ReLU)
+  \item Strided pooling by a factor > 1
+  \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
+\end{enumerate}
+
+\subsection{Layers’ Jacobian.} Calculate the Jacobian matrix of the following layers:
+\begin{enumerate}
+  \item Additive bias vector
+  \item General Matrix multiplication
+  \item Convolution layer
+\end{enumerate}
+
+
+
+\end{document}
+
