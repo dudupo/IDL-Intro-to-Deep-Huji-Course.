@@ -84,9 +84,12 @@ J = \begin{bmatrix}
     \end{split}
 \end{equation*}
   \item General Matrix multiplication
+
+
+    \textbf{Solution.} In that case $f_i(x) = \sum_{k}{A_{ik}x_{k}}$ and therefore: 
   \begin{equation*}
     \begin{split}
-    \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
+    \frac{\partial f_i}{\partial x_j} = \frac{\partial }{\partial x_j} \left(\sum_{k}{A_{ik}x_{k}} \right) = A_{ij} \Rightarrow J = A
     \end{split}
 \end{equation*}
   \item Convolution layer
