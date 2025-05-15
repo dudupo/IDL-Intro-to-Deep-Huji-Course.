@@ -54,15 +54,47 @@ And we got that the convolution is an LTI operation.
     \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
     \end{split}
 \end{equation*}
-  \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
-\textbf{Solution.}
+  \item As a result, is a CNN composed of all these operators (+convolution) time invariant? 
+   
+    
+    \textbf{Solution.} \textbf{FALSE.} The pooling is not TI and therfore a CNN isn't a TI. 
 \end{enumerate}
 
 \subsection{Layers’ Jacobian.} Calculate the Jacobian matrix of the following layers:
+
+Recall the Jacobian defitnion:
+  \begin{equation*}
+    \begin{split}
+J = \begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+\frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_2}{\partial x_n} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n}
+\end{bmatrix}
+    \end{split}
+\end{equation*}
+
 \begin{enumerate}
-  \item Additive bias vector
+  \item Additive bias vector 
+
+    \textbf{Solution.} In that case $f_i(x) = x_{i} + b_{i}$ and therefore: 
+  \begin{equation*}
+    \begin{split}
+      \frac{\partial f_i}{\partial x_j} = \frac{\partial }{\partial x_j} \left( x_{i} + b_{i} \right) = \begin{cases} 1 & \text{if} i = j \\ 0 & \text{else}  \end{cases}
+    \end{split}
+\end{equation*}
   \item General Matrix multiplication
+  \begin{equation*}
+    \begin{split}
+    \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
+    \end{split}
+\end{equation*}
   \item Convolution layer
+  \begin{equation*}
+    \begin{split}
+    \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
+    \end{split}
+\end{equation*}
 \end{enumerate}
 
 
