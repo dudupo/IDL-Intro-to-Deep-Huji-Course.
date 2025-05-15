@@ -23,14 +23,19 @@
       &= \mathcal{L}[f](\tau) = \mathcal{L}[f](y-t)
     \end{split}
 \end{equation*}
-
+And we got that the convolution is an LTI operation.
  
 \subsection{TI.} Explain whether each of the following layers are time/space invariant or not:
 \begin{enumerate}
-  \item Additive constant
+  \item Additive constant.
+
+    \textbf{Solution.} \textbf{TRUE.} $\mathcal{L}[f] = f(x) + c \Rightarrow  \mathcal{L}[f(x-t)] = f(x-t) + c =  \mathcal{L}[f](x-t)$
   \item Pointwise nonlinearity (such as ReLU)
+\textbf{Solution.}
   \item Strided pooling by a factor $ > 1 $
+\textbf{Solution.}
   \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
+\textbf{Solution.}
 \end{enumerate}
 
 \subsection{Layers’ Jacobian.} Calculate the Jacobian matrix of the following layers:
