@@ -13,13 +13,23 @@
 
 \section{Theoretical Questions:}
 
-\subsection{LTI}. Show that a convolution with respect to any filter h is time/space invariant.
+\subsection{LTI.} Show that a convolution with respect to any filter $h$ is time/space invariant.
 
+
+\textbf{Solution.} Let's denote by $\mathcal{L} : \text{funcs} \rightarrow {funcs}$ the convolution by the filter $h$, namely $\mathcal{L}[f] = f*h = \sum_{x}{h(x)f(y-x)}$. To show that $\mathcal{L}$ is an LTI operation we have to show that $\mathcal{L}[f(x-t)](y) = \mathcal{L}[f](y+t)$. (Notes that the linearity we got for free by the linearity of convolution, So only the time invarent part is left). So: 
+\begin{equation*}
+    \begin{split}
+      \mathcal{L}[f(x-t)](y) &=  f(x-t)*h = \sum_{x}{h(x)f( \overbrace{y-t}^{\tau}-x)} = \sum_{x}{h(x)f(\tau-x)}\\
+      &= \mathcal{L}[f](\tau) = \mathcal{L}[f](y+t)
+    \end{split}
+\end{equation*}
+
+ 
 \subsection{TI.} Explain whether each of the following layers are time/space invariant or not:
 \begin{enumerate}
   \item Additive constant
   \item Pointwise nonlinearity (such as ReLU)
-  \item Strided pooling by a factor > 1
+  \item Strided pooling by a factor $ > 1 $
   \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
 \end{enumerate}
 
