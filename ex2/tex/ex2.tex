@@ -16,7 +16,7 @@
 \subsection{LTI.} Show that a convolution with respect to any filter $h$ is time/space invariant.
 
 
-\textbf{Solution.} Let's denote by $\mathcal{L} : \text{funcs} \rightarrow {funcs}$ the convolution by the filter $h$, namely $\mathcal{L}[f] = f*h = \sum_{x}{h(x)f(y-x)}$. To show that $\mathcal{L}$ is an LTI operation we have to show that $\mathcal{L}[f(x-t)](y) = \mathcal{L}[f](y-t)$. (Notes that the linearity we got for free by the linearity of convolution, So only the time invarent part is left). So: 
+\textbf{Solution.} Let's denote by $\mathcal{L} : \text{funcs} \rightarrow \text{funcs}$ the convolution by the filter $h$, namely $\mathcal{L}[f] = f*h = \sum_{x}{h(x)f(y-x)}$. To show that $\mathcal{L}$ is an LTI operation, we have to show that $\mathcal{L}[f(x-t)](y) = \mathcal{L}[f](y-t)$. (Note that the linearity is obtained for free by the linearity of convolution, so only the time-invariant part is left). So:
 \begin{equation*}
     \begin{split}
       \mathcal{L}[f(x-t)](y) &=  f(x-t)*h = \sum_{x}{h(x)f( \overbrace{y-t}^{\tau}-x)} = \sum_{x}{h(x)f(\tau-x)}\\
@@ -38,17 +38,22 @@ And we got that the convolution is an LTI operation.
 \end{equation*}
 
   \item Pointwise nonlinearity (such as ReLU)
-    \textbf{Solution.} \textbf{FALSE.} Denote $\mathcal{L}[f] = Relu(f(x))$, now consider the ReLU action over the linear function $f(x) = x$.   
-\begin{equation*}
+
+    \textbf{Solution.} \textbf{TRUE.} Since the operator acts pointwise, we can denote it by $\mathcal{L}[f](x) = g(f(x))$. Here we think of the input $x$ as the coordinate (that's consistent with the definition of the convolution from the lecture). Now:
+  \begin{equation*}
     \begin{split}
-      \Rightarrow  \mathcal{L}[f(x-t)] = Relu(f(x-t))  =  \begin{cases}  
-        0 & \text{if} x < t \\ 
-        x - t & \text{else}
-      \end{cases}   \neq \mathcal{L}[f](x-t)
+      \Rightarrow  \mathcal{L}[f(x-t)] = g(f(x-t))  =  \mathcal{L}[f](x-t)
     \end{split}
 \end{equation*}
   \item Strided pooling by a factor $ > 1 $
-\textbf{Solution.}
+
+
+    \textbf{Solution.} \textbf{FALSE.} Consider the $2$-factor pooling, namely $\mathcal{L}[f](x) = f(2x)$, (equivalent to taking only the even coordinates). Now consider the action of shifting the function $f$ by a single time unit, The pooling gives only the odd coordinates, namely:
+  \begin{equation*}
+    \begin{split}
+    \mathcal{L}[f(x+1)] = f(2x+1) \neq \mathcal{L}[f](x+1)= f(2x + 2)
+    \end{split}
+\end{equation*}
   \item As a result, is a CNN composed of all these operators (+convolution) time invariant?
 \textbf{Solution.}
 \end{enumerate}
