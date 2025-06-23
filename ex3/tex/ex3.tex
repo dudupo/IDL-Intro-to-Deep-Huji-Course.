@@ -74,7 +74,7 @@ So the size of the response map is \verb|30 x 30 x 1|.
   \textbf{Solution.}Notice that the receptive field of one layer equals \verb|kernel_size x stride|, and that the concatenation of layers increases the receptive field additively and the overall stride multiplicity. Therefore we get the follow recursive relation: 
 \begin{equation*}
   \begin{split}
-  r_i &= r_{i-1} + \left(\text{kernel_size}_i - 1\right) \cdot \text\prod_{j \le i }{stride}_{j}  \\
+  %r_i &= r_{i-1} + \left(\text{kernel_size}_i - 1\right) \cdot \text\prod_{j \le i }{stride}_{j}  \\
       r_0 &=  1 + 3 \\
       r_1 &= 3 + 2 * 4 = 11 \\
       r_2 &= 11 + 2 * 2 = 15 \\
