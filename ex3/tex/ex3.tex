@@ -61,7 +61,7 @@ where \verb|padding=0| is equivalent to \verb|valid|. What would be the output s
 \textbf{Solution.} We compute the dimension directly. We compute it by adding padding entries to each end, then moving the kernel window until we reach \verb|last_entry - kernel_size|, and at the end, we divide by \verb|stride| and append a single position of the kernel. So in overall, we get:
 \begin{equation*}
   \begin{split}
-    o_i &= \frac{ o_{i-1} + \text{pedding} * 2 - \text{kernel_size}}{\text{stride} } +1 \\
+   % o_i &= \frac{ o_{i-1} + \text{pedding} * 2 - \text{kernel_size} }{\text{stride} } +1 \\
       o_0 &=  \frac{  128 + 0 * 2 - 3}{2} + 1 \rightarrow 63  \\
       o_1 &=  \frac{ 63 + 2 * 2 - 5}{1} + 1 \rightarrow 63 \\
       o_2 &=  \frac{  63 + 1 * 2 - 3}{1} + 1\rightarrow 63 \\
