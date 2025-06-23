@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\title{IDL Exercise 3.}
+\author{Daniel Ruderman, David Ponarovsky}
+\date{April 2025}
+
+
+\newcommand{\DXX}[1]{ \frac{d}{ d #1 } }
+\begin{document}
+
+\maketitle
+
+\section{Theoretical Questions:}
+
+\begin{enumerate}
+  \item Explain what type of a network architecture you will use to handle each of the following problems (e.g., many-to-many RNN, or a one-to-one convolution NN). Explain your reasoning. 
+    \begin{enumerate}
+\item Speech recognition (audio to text) 
+  \textbf{Solution.} one-to-one CNN. The task requires iterating over each time-window and then mapping a wave function into its representation in the semantic space. Since, by the definition of the task, we should treat the signals as independent, we don't need to take into account influences of signals that we got at the beginning of the sentence over signals that we got at the end of the sentence.
+\item Answer questions
+
+
+  \textbf{Solution.} many-to-many RNN.  Here, the task requires language processing, since the meaning of words might completely differ depending on the occurrence of other words, the inference process has to consider the sentence as a whole.
+\item Sentiment analysis
+
+
+        \textbf{Solution.} many-to-many RNN. In a similar manner to the above, sentiments depend on the whole context. The pair 'oh no' can refer to either anxiety or sarcasm, distinguishing the case requires access to the whole sentence.
+\item Image classification
+
+
+  \textbf{Solution.} one-to-one CNN. (or just a single CNN) Here, the dimensions of the image are (typically) defined and in some sense finite. Thus, it makes sense to consider the standard CNN that takes an image as input and performs the whole computation alone, and the mapping (one-to-one vs. many-to-many) is kind of degenerate itself.
+\item Single word translation
+
+
+  \textbf{Solution.} one-to-one CNN. (or just a single fully connected). In a manner similar to the above, since the mapping between languages, in the context of mapping single words, is approximately one-to-one, and the dimension of the words is small and can be thought of as finite, a single fully connected net can be a good candidate for the task.  
+    \end{enumerate}
+    \begin{enumerate}
+  \item Describe the architecture of a network that reads a sentence and generates an image based on the text. Do not address the question of how such a network is trained, just explain why its architecture should have the capacity to perform this task. Assume that the images come from a restricted class of images, e.g., faces, and can be encoded, and decoded, in a low-dimensional latent space. 
+
+    \textbf{Solution.} The net will be composed of tree parts: 
+    \begin{itemize}
+      \item An Input Rnn layer, that gets the input and compute an segment output, on each we think as input that has a varity level of influences by all the words of the sentance.   
+      \item A many-to-many attention level that will take the intermediate output and then will 'mix' it.
+      \item A CNN, that could be thought of as the inverse of the classification net. 
+    \end{itemize}  The idea is that the first RNN should have the capacity to extract the meaning of the sentence (text processing task), and the second layer maps the entities to different 'locations' on the image with different weights.The thrid should have the capacity to output images based on the fed text, as it is the reverse of classifying images, a task at which CNNs excel.
+      \item Assume an image is encoded using 4 latent codes that correspond to its four quadrants. Explain how an attention can be used to allow such a network to better support fine-grained descriptions in the input text, which refers to the different regions (top, bottom, left, right, sky, ground, etc.). Note that the architecture should be able to link text to specific image latent code.
+
+        \textbf{Solution.} Now we can take the architecture from earlier, and in addition, add an RNN layer that, given the sentence, understands the geometrical location, for example, 'left top corner' (ofcourse that the output would be a segement, with a score in each bit). Now one can concatenate that output with the intermediate output of the original first layer and give it to the attention layer. This, in fact, hints to the attention layer that it should focus on mapping to one of the four quadrants.
+    \end{enumerate}
+    \begin{enumerate}
+      \item Assume an \verb|128X128x1| input image is inputted to the following architecture :
+\verb|conv(kernal_size=3,stride=2,padding=0)|
+\verb|conv(kernal_size=5,stride=1,padding=2)|
+\verb|conv(kernal_size=3,stride=1,padding=1)|
+\verb|conv(kernal_size=5,stride=2,padding=0)|
+where \verb|padding=0| is equivalent to \verb|valid|. What would be the output size of the response map produced by this network?
+        
+
+\textbf{Solution.} We compute the dimension directly. We compute it by adding padding entries to each end, then moving the kernel window until we reach \verb|last_entry - kernel_size|, and at the end, we divide by \verb|stride| and append a single position of the kernel. So in overall, we get:
+\begin{equation*}
+  \begin{split}
+    o_i &= \frac{ o_{i-1} + \text{pedding} * 2 - \text{kernel_size}}{\text{stride} } +1 \\
+      o_0 &=  \frac{  128 + 0 * 2 - 3}{2} + 1 \rightarrow 63  \\
+      o_1 &=  \frac{ 63 + 2 * 2 - 5}{1} + 1 \rightarrow 63 \\
+      o_2 &=  \frac{  63 + 1 * 2 - 3}{1} + 1\rightarrow 63 \\
+      o_3 &=  \frac{  63 + 0 * 2 - 5}{2} + 1 \rightarrow 30 
+    \end{split}
+\end{equation*}
+So the size of the response map is \verb|30 x 30 x 1|. 
+\item What would be the size of the receptive field of each neuron in the final layer (consider center neurons which are not affected by the padding).
+
+  \textbf{Solution.}Notice that the receptive field of one layer equals \verb|kernel_size x stride|, and that the concatenation of layers increases the receptive field additively and the overall stride multiplicity. Therefore we get the follow recursive relation: 
+\begin{equation*}
+  \begin{split}
+  r_i &= r_{i-1} + \left(\text{kernel_size}_i - 1\right) \cdot \text\prod_{j \le i }{stride}_{j}  \\
+      r_0 &=  1 + 3 \\
+      r_1 &= 3 + 2 * 4 = 11 \\
+      r_2 &= 11 + 2 * 2 = 15 \\
+      r_3 &= 15 + 2 * 4 = 23
+    \end{split}
+\end{equation*}
+\end{enumerate}
+
+\item Show and explain why a transformer composed solely of successive self-attention layers and fully connected (feed-forward) layers acts as a permutation-invariant function on its input tokens - i.e., its output is unchanged if the tokens are reordered. Then show that once positional encodings are added, this permutation invariance no longer holds. 
+
+  \textbf{Solution.}  Let's denote the softmax function by $f$, and $W_{Q}, W_{K}, W_{V}$ as the learned weights for the queries, keys, and values. In addition, let's denote the normalization factor in the softmax (we can assume that the softmax is aware of the token dimension). Thus, the attention function becomes:
+
+\begin{equation*}
+  \begin{split}
+    \text{Attention} \left( X \right) &= f\left( \left(XW_{Q}\right) \left(XW_{K}\right)^\top \right) XW_{V}  
+    \end{split}
+\end{equation*}
+
+
+So, under the action of permutation $P$, namely $X \rightarrow PX$, we find that the attention becomes:
+
+\begin{equation*}
+  \begin{split}
+    \text{Attention} \left( PX \right) &= f\left( \left(PXW_{Q}\right) \left(PXW_{K}\right)^\top \right) PXW_{V} \\
+    &= f\left( PXW_{Q} W_{K}^\top X^\top P ^\top  \right) PXW_{V} 
+    \end{split}
+\end{equation*}
+
+Since $f$ is a coordinate-wise function, and $P$ is a permutation, we get that $f(PXP^\top) = Pf(X)P^{\top}$. In addition, using that $P$ is a permutation again, we have that $P^\top P = I$. So overall, we get that:
+
+\begin{equation*}
+  \begin{split}
+    \text{Attention} \left( PX \right) &= P  \text{Attention} \left( X \right) 
+    \end{split}
+\end{equation*}
+So the Attention operator commutes with permutations, or in other words, is permutation-equivariant. Thus, permuting the input and then the labels entered into the fully connected net is equivalent to first computing the attention and then applying the permutation and its inverse.
+
+
+Adding the positional encoding to the net breaks the commuting relation. We can formulate it by writing the input to the all connect as:
+
+\begin{equation*}
+  \begin{split}
+    \text{Attention} \left( X \right) + g(I)   
+    \end{split}
+\end{equation*}
+
+Where $g$ is some positional function. Now, after permuting both the input and the labeling, we have:
+
+\begin{equation*}
+  \begin{split}
+    P^\top \left(\text{Attention} \left( PX \right) + g(I) \right)  = \text{Attention} \left( X \right) + P^\top g(I)   
+    \end{split}
+\end{equation*}
+
+For $g$ to make sense, there should be at least two indices such that $g_{i} \neq g_{j}$. Then, any permutation $P^{\top}$ that swaps between them is a permutation for which the net might be invariant.
+
+\end{enumerate}
+
+
+
+\end{document}
+
