@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
-%\usepackage{split}
+\usepackage{verbatim}
 \title{IDL Exercise 3.}
 \author{Daniel Ruderman, David Ponarovsky}
 \date{April 2025}
@@ -18,6 +18,8 @@
   \item Explain what type of a network architecture you will use to handle each of the following problems (e.g., many-to-many RNN, or a one-to-one convolution NN). Explain your reasoning. 
     \begin{enumerate}
 \item Speech recognition (audio to text) 
+
+
   \textbf{Solution.} one-to-one CNN. The task requires iterating over each time-window and then mapping a wave function into its representation in the semantic space. Since, by the definition of the task, we should treat the signals as independent, we don't need to take into account influences of signals that we got at the beginning of the sentence over signals that we got at the end of the sentence.
 \item Answer questions
 
@@ -51,10 +53,12 @@
     \end{enumerate}
     \begin{enumerate}
       \item Assume an \verb|128X128x1| input image is inputted to the following architecture :
-\verb|conv(kernal_size=3,stride=2,padding=0)|
-\verb|conv(kernal_size=5,stride=1,padding=2)|
-\verb|conv(kernal_size=3,stride=1,padding=1)|
-\verb|conv(kernal_size=5,stride=2,padding=0)|
+\begin{verbatim}
+      conv(kernal_size=3,stride=2,padding=0)
+      conv(kernal_size=5,stride=1,padding=2)
+      conv(kernal_size=3,stride=1,padding=1)
+      conv(kernal_size=5,stride=2,padding=0)
+\end{verbatim}
 where \verb|padding=0| is equivalent to \verb|valid|. What would be the output size of the response map produced by this network?
         
 
