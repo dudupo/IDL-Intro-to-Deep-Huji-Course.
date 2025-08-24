@@ -21,14 +21,22 @@ Does a recursive net of type Elman, that gets the zero vector as input at each s
   \item In general No, Yet when given $t$ as initial input, yes. 
 \end{enumerate}
 \inb{ My answer: (3), Correct answer: (1)}. 
-I believe the confusion emits form the order of entetis, The question: 'Is there an Elman cell that can count until $t$ for an arbitrary $t$?' is a different question than: 'Fix $t$, is there exist an Elman cell that can count until $t$'? 
+%I believe that the confusion emits form the order of entetis, The question: 'Is there an Elman cell that can count until $t$ for an arbitrary $t$?' is a different question than: 'Fix $t$, is there exist an Elman cell that can count until $t$'? 
 
-For, the second question: There is family of unbound fan-in/out circuits, at width $poly(|t|)$ (the length of the encoding of $t$), that implement addition: \href{https://people.clarkson.edu/~alexis/PCMI/Notes/lectureB02.pdf}{[addition in $AC_{0}$]}. 
-It's not hard to see that the implementation in the notes can realized using Elman cell, and there fore one can find such realization that adds $1$ to the input which is entered via the hidden channel.  
+%For, the second question: There is family of unbound fan-in/out circuits, at width $poly(|t|)$ (the length of the encoding of $t$), that implement addition: \href{https://people.clarkson.edu/~alexis/PCMI/Notes/lectureB02.pdf}{[addition in $AC_{0}$]}. 
+%It's not hard to see that the implementation in the notes can realized using Elman cell, and there fore one can find such realization that adds $1$ to the input which is entered via the hidden channel.  
 
-For the first question, in which we first fix the Elman cell architecture, and therefore also fix the width of the output. Thus the number can be outputted using the cell has to has a suitable length and can not be arbitrary.
+%For the first question, in which we first fix the Elman cell architecture, and therefore also fix the width of the output. Thus the number can be outputted using the cell has to has a suitable length and can not be arbitrary.
 
-I marked the third option since, saying 'on given $t$ as initial input' implies that $t$ is validate input/token to the cell, namely has length which matches the cells weights.  
+%I marked the third option since, saying 'on given $t$ as initial input' implies that $t$ is validate input/token to the cell, namely has length which matches the cells weights.  
+
+I believe that the confusion arises from the order of entities. The question: 'Is there an Elman cell that can count until $t$ for an arbitrary $t$?' is a different question than: 'Fix $t$, does there exist an Elman cell that can count until $t$?'
+
+For the second question: There is a family of unbounded fan-in/out circuits, at width $poly(|t|)$ (the length of the encoding of $t$), that implement addition: \href{https://people.clarkson.edu/~alexis/PCMI/Notes/lectureB02.pdf}{[addition in $AC_{0}$]}. It's not hard to see that the implementation in the notes can be realized using an Elman cell, and therefore one can find such a realization that adds $1$ to the input which is entered via the hidden channel.
+
+For the first question, in which we first fix the Elman cell architecture, and therefore also fix the width of the output. Thus, the number that can be outputted using the cell has to have a suitable length and cannot be arbitrary.
+
+I marked the third option since saying 'on given $t$ as initial input' implies that $t$ is a valid input/token to the cell, namely has a length that matches the cell's weights.
 
 
 \paragraph{ Question 8 - Inception Score. } Which of the following scenarios is expected to yield high IS score, although the generated images are at low quality?
