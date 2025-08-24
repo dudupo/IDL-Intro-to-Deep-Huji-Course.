@@ -57,8 +57,17 @@ I marked the third option since saying 'on given $t$ as initial input' implies t
 \end{enumerate}
 
 \inb{ My answer: (1), Correct answer: (2)}. 
+Denote the loss function by $\mathcal{L} = | A(E) - I | + KL( p(z) | q )$, where the first term is the reconstruction loss and the second is the KL-divergence, which penalizes the distance between the distribution induced over latent space and a baseline family of distributions $q$ (Gaussians).
 
-First, 
+I agree that, in general, the main reason for the results of the VEAs being blurred is the KL-divergence term, In particular it enforces the decoder to decode a sampled super-position over the latent space. Yet the question asks what is the main reason for blurriness compared to GANs.  
+
+And, when comparing to GANs, which, in our course, have an amorphic architecture and can be arbitrarily complex, one should also consider the case when the architecture of the VEAs is as exactly complicated as in GANs, surly if in that regime the VEAs products are still inferior. 
+
+
+In that regime, one could think on a \textbf{decoder} which expands the latent dimension so mach, such that for human eye the interpolation $D(tz_{1} + (1-t)z_{2})$ is not a continues function. In that case, even though that the KL-element enforce the latent vector $z$ be distributed according gaussian, any value of $z$ that can be seen in experiment leads to other value $x$ in the data space.  
+
+for each different point  maps to gaussian at the 
+is indeed the main reason, for the we would expe
 
 Second, if the KL-divergence element is indeded the main source for the blurration, we would expect that WAEs for which the loss over the latent-space heads to advance $\mathbf{E}_{\sim x} \left[ \mathbf{Pr} \left[  Z | X \right]    \right] \rightarrow \sim e^{-z^{2}} $ instead of $ \mathbf{Pr} \left[  Z | X \right] \rightarrow \sim e^{-z^{2}} $ (for any $x$) would generates a significantly less blurred images. Indeed they exhibit improvements when compared to VEAs, yet they are still blurred compared to Gans.   
 
