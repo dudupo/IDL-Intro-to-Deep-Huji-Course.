@@ -61,7 +61,7 @@ Denote the loss function by $\mathcal{L} = | A(E) - I | + KL( p(z) | q )$, where
 
 I agree that, in general, the main reason for the results of the VEAs being blurred is the KL-divergence term, In particular it enforces the decoder to decode a sampled super-position over the latent space. Yet the question asks what is the main reason for blurriness compared to GANs.  
 
-And, when comparing to GANs, which, in our course, have an amorphic architecture and can be arbitrarily complex, one should also consider the case when the architecture of the VEAs is as exactly complicated as in GANs, surly if in that regime the VEAs products are still inferior. 
+When comparing to GANs, which, in our course, have an amorphic architecture and can be arbitrarily complex, one should also consider the case when the architecture of the VEAs is as exactly complicated as in GANs, surly if in that regime the VEAs products are still inferior. 
 
 
 In that regime, one could think on a \textbf{decoder} which expands the latent dimension so mach, such that for human eye the interpolation $D(tz_{1} + (1-t)z_{2})$ is not a continues function. In that case, even though that the KL-element enforce the latent vector $z$ be distributed according gaussian, any value of $z$ that can be seen in experiment leads to other value $x$ in the data space.  
