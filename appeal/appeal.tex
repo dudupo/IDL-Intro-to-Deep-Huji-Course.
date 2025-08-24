@@ -36,7 +36,8 @@ For the \textbf{second} question: There is a family of unbounded fan-in/out circ
 
 For the \textbf{first} question, in which we first fix the Elman cell architecture, and therefore also fix the width of the output. Thus, the number that can be outputted using the cell has to have a suitable length and cannot be arbitrary.
 
-I marked the third option since saying 'on given $t$ as initial input' implies that $t$ is a valid input/token to the cell, namely has a length that matches the cell's weights.
+%I marked the third option since saying 'on given $t$ as initial input' implies that $t$ is a valid input/token to the cell, namely has a length that matches the cell's weights. For such $t$'s, the RNN counts correctly, when for others, the behavior of giving the input is not well defined, and excepted to be a failure.  
+I marked the third option since saying 'on given $t$ as initial input' implies that $t$ is a valid input/token to the cell, namely, it has a length that matches the cell's weights. For such $t$'s, the RNN counts correctly, whereas for others, the behavior of giving the input is not well defined and is expected to be a failure.
 
 
 \paragraph{ Question 8 - Inception Score. } Which of the following scenarios is expected to yield high IS score, although the generated images are at low quality?
